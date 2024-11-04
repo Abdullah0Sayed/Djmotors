@@ -1,0 +1,22 @@
+.buy-now-individuals{
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/indivduals.jpeg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+}
+
+.buy-now-company {
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/companies.jpeg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+}
+
+.buy-now-col:hover .buy-now-company , .buy-now-col:hover .buy-now-individuals  {
+    transform: scale(1.2);
+    transition: 0.4s 0.1s ease-out;
+}

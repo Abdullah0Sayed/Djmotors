@@ -1,0 +1,10 @@
+.recent-car-col {
+    position: relative;
+
+}
+
+.recent-car-col:hover img{
+    z-index: 20020200202;
+    transform: scale(0.9);
+    transition: 0.5s ease-in-out;
+}

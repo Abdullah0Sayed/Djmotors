@@ -1,0 +1,16 @@
+
+.hit-heading p {
+    position: relative;
+    z-index: 1;
+}
+.hit-heading p::before {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    bottom: 0rem;
+    width: 50%;
+    height: 4rem;
+    background: #FF0000;
+    border-radius: 0.2rem;
+    transform: skew(10deg);
+}

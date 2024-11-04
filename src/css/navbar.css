@@ -1,0 +1,56 @@
+.nav-col-links ul li {
+    position: relative;
+    transition: 0.5s ease;
+}
+
+#sparePartsList li{
+    color: black;
+    padding: 0.2rem;
+}
+
+#sparePartsList li.active{
+    color: #ff0000;
+    padding: 0.2rem;
+}
+
+#sparePartsList li:hover{
+    color: #ff0000a9;
+    padding: 0.2rem;
+}
+
+.nav-col-links ul li:hover {
+    color: #F32436;
+}
+/* .nav-col-links ul li:hover ::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0.1rem;
+    background-color: #000000;
+    bottom: -0.4rem;
+    border-radius: 0.25rem;
+   
+} */
+.active {
+    position: relative;
+    font-weight: bold;
+    color: #F32436;
+}
+.nav-col-links ul li.active::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0.1rem;
+    background-color: #F32436;
+    bottom: -0.4rem;
+    border-radius: 0.25rem;
+}
+
+#sparePartsMenu {
+    display: none;
+    transition: 0.1s ease all;
+}
+
+#sparePartsLink:hover #sparePartsMenu {
+    display: block;
+}

@@ -1,0 +1,22 @@
+.funds-offer{
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/fundsOffer.jpeg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+}
+
+.cash-offer {
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/cashOffer.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+}
+
+.offer-col:hover .funds-offer , .offer-col:hover .cash-offer  {
+    transform: scale(1.2);
+    transition: 0.4s 0.1s ease-out;
+}

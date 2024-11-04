@@ -1,0 +1,35 @@
+#sorting-section {
+    transition: 0.4s ease-in;
+}
+#sorting-section ul li {
+    padding: 0.8rem;
+    border-bottom: 0.08rem #e9e9e9 solid;
+}
+#sorting-section ul li:hover {
+    background-color: #f9f9f9ae;
+    cursor: pointer;
+    color: #ff0000;
+}
+.slider .thumb.active {
+    position: relative;
+    font-weight: bold;
+    color: #F32436;
+}
+.active::before {
+    content: '';
+    display: none;
+}
+.slider .thumb {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: #ffffff;
+    border: #ff0000 0.18rem solid;
+    outline: none;
+    top: -0.5rem;
+}
+
+.track-1 {
+  height: 100%;
+  background-color: #F32436;
+}
