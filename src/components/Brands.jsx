@@ -109,14 +109,14 @@ function Brands() {
                     )}
                 </div>
 
-                {/* إظهار الزر إذا كان هناك المزيد من العناصر */}
+
                 {(visibleBrandsCount < filteredBrands.length) & (status !== 'loading') ? (
                     <div className="flex justify-center my-4">
                         <button 
                             onClick={loadMoreBrands} 
                             className="bg-transparent text-mainRedColor border border-mainRedColor py-2 px-4 rounded hover:bg-mainRedColor hover:text-white"
                         >
-                            {t('LoadMore')} {/* يمكنك تغيير النص ليكون ديناميكيًا */}
+                            {t('LoadMore')} 
                         </button>
                     </div>
                 ) : 

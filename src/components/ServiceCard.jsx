@@ -14,13 +14,13 @@ function ServiceCard(props) {
                
                 <div className='w-full h-full  flex flex-col gap-4 p-4 justify-center items-center '>
                     <p className='text-lg font-black text-mainRedColor'>{props.serviceTitle}</p>
-                    <p className='text-sm text-justify'>{props.serviceDescription}</p>
+                    <p className='text-xs text-justify leading-5'>{props.serviceDescription}</p>
                 </div>
                 <div className='card-image w-full h-full flex justify-center items-center overflow-hidden'>
                     <img src={props.serviceImage} alt="" className='w-full h-full'/>
                 </div>
                 <div className='w-full   flex justify-center p-4 items-end'>
-                    <button className='w-full bg-transparent text-mainRedColor border border-mainRedColor py-2 px-4 rounded hover:bg-mainRedColor hover:text-white'>{t('serviceDetailsBtn')}</button>
+                    <button className='w-full bg-transparent text-mainRedColor border border-mainRedColor py-2 px-4 rounded hover:bg-mainRedColor hover:text-white' onClick={props.onButtonClick}>{t('serviceDetailsBtn')}</button>
                 </div>
             </div>
     

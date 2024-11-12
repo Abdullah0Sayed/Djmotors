@@ -42,12 +42,20 @@ function CarsShowRoom(){
     let [priceMenuIsActive , setPriceMenu] = useState(false);
     let [financingPriceMenuIsActive , setFinancingPriceMenu] = useState(false);
     let [sortingMenuIsActive , setSortingMenu] = useState(false);
-    const Min_Financing = 100;
-    const Max_Financing = 5000
-    const Min_Purcahs = 1000;
-    const Max_Purcahs = 3_000_000
+    let [visibleAvaliableCars , setVisibleAvaliableCars] = useState(3);
+
+    // Search + Filter + Sorting
+    let [searchQuery , setSearchQuery] = useState('');
+    let [sortingQuery , setSortingQuery] = useState('');
+
+    
+    const [prices, setPrices] = useState([]);
+    let [Min_Financing , setMinFinancing] = useState(1);
+    let [Max_Financing , setMaxFinancing] = useState(999_999_999);
     let [values_Financing , setValuesFinancing] = useState([Min_Financing , Max_Financing])
-    let [values_Purcahs , setValuesPurcahs] = useState([Min_Purcahs , Max_Purcahs])
+    let [minPrice , setMinPrice] = useState(values_Financing[0]);
+    let [maxPrice , setMaxPrice] = useState(values_Financing[1]);
+   
 
     useEffect(()=>{
         setSearchMenu(true)
@@ -55,10 +63,9 @@ function CarsShowRoom(){
         setSortingMenu(true)
         setFinancingPriceMenu(true)
     },[]);
-
-
-    useEffect(()=>{
         // Fetch Cars 
+    useEffect(()=>{
+
         const fetchCarsOfBrandAndVehicleType = async ()=>{
             try {
                 const res = await axios.get(`http://127.0.0.1:8000/api/v1/main-car-model/${brand_id}/${brand_type_id}`);
@@ -73,6 +80,65 @@ function CarsShowRoom(){
         
     } , []);
 
+
+    useEffect(() => {
+        if (cars.length >= 1) {
+            console.log(`Cars are Loaded`);
+            const pricesArray = cars.map(car => parseFloat(car.main_model_price_include_tax));
+            setPrices(pricesArray);
+        }
+    }, [cars]);
+
+   useEffect(()=>{
+        console.log(prices)
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
+        setMinFinancing(min);
+        setMaxFinancing(max);
+   } , [prices])
+    
+    
+    // Handle Change in Slider
+    // Search
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value.toLowerCase());
+        console.log(e.target.value.toLowerCase())
+    };
+    //    Cars Based On Filter of Search
+    const carsFiltered = cars
+    .filter((car) => {
+      // فلترة البحث (اسم الطراز بالإنجليزي والعربي)
+      const isSearchMatch = 
+        car.main_model_name_en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        car.main_model_name_ar.toLowerCase().includes(searchQuery.toLowerCase()) ;
+  
+      // فلترة السعر بين minPrice و maxPrice
+      const isPriceInRange = car.main_model_price_include_tax >= minPrice && car.main_model_price_include_tax <= maxPrice;
+  
+      // إرجاع النتيجة فقط إذا تطابق البحث وفلترة السعر
+      return isSearchMatch && isPriceInRange;
+    })
+    .sort((a, b) => {
+      // ترتيب السيارات بناءً على sortingQuery
+      if (sortingQuery === 'recent') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortingQuery === 'min') {
+        return a.main_model_price_include_tax - b.main_model_price_include_tax;
+      } else if (sortingQuery === 'max') {
+        return b.main_model_price_include_tax - a.main_model_price_include_tax;
+      }
+  
+      return 0; // عدم التغيير إذا لم يكن هناك شرط ترتيب محدد
+    });
+  
+//  Load More Cars to Visible Cars
+
+const loadMoreCars = ()=>{
+    setVisibleAvaliableCars(prev => prev + 3);
+}
+
+
+
   return (
     <div className='min-h-screen'>
         <Helmet>
@@ -83,11 +149,7 @@ function CarsShowRoom(){
             <div className='w-full grid grid-cols-12 min-h-screen'>
                 <div className='side-bar col-span-3 bg-white shadow-md p-4 sm:flex flex-col gap-2 hidden'>
 
-                    <div className='side-bar-counting flex flex-row gap-2'>
-                            <p className='text-sm font-black text-gray-800'>{t('showRoomCountCarsHeading')}</p>
-                            <p className='text-sm font-black text-gray-800'>(6)</p>
-                    </div>
-                    <hr className='my-2'/>
+                   
                     <div className='side-bar-search flex flex-col gap-4'>
                         <div className='flex flex-row gap-2  items-center cursor-pointer transition-all' onClick={()=>{
                             !searchMenuIsActive ? setSearchMenu(true) : setSearchMenu(false)
@@ -98,67 +160,49 @@ function CarsShowRoom(){
                         </div>
                         <div id='search-section' className={!searchMenuIsActive ? 'hidden' : ''}>
                             <SearchInput 
-                            placeHolder={t('searchPlaceHolder')} 
+                            placeHolder={t('searchPlaceHolder')}
+                            onSearchChange={handleSearchChange}
                             />
                         </div>
                     </div>
                    
                     <hr className='my-2'/>
-                    <div className='side-bar-price-range flex flex-col gap-4'>
-                        <div className='flex flex-row gap-2  items-center cursor-pointer' onClick={()=>{
-                            !priceMenuIsActive ? setPriceMenu(true) : setPriceMenu(false)
-                            
-                        }}>
-                            <p className='text-sm font-black text-gray-800'>{t('showRoomRangeCarsPricesHeading')}</p>
-                            <img src={arrowDown} alt="" srcset="" className={priceMenuIsActive ? ' w-4 rotate-180' : 'w-4'}/>
-                        </div>
-                        <div id='range-section' className={!priceMenuIsActive ? 'hidden' : 'flex flex-col gap-4'}>
-                            <div className='range-inputs flex flex-row justify-center items-center gap-6'>
-                                <div className='flex flex-col gap-2 justify-center items-center'>
-                                    <p className='text-sm font-black text-gray-800'>{t('showRoomRangeFromHeading')}</p>
-                                    <input type="text" name="min-price" id="min-price" className='w-full h-10 rounded border border-gray-300 focus:outline-none focus:border-mainRedColor text-center text-sm text-gray-700' value={values_Purcahs[0]}/>
-                                    <p className='text-sm font-black text-mainRedColor'>{t('pricemeasure')}</p>
-                                </div>
-                                
-                                <div className='flex flex-col gap-2 justify-center items-center'>
-                                    <p className='text-sm font-black text-gray-800'>{t('showRoomRangeToHeading')}</p>
-                                    <input type="text" name="max-price" id="max-price" className='w-full h-10 rounded border border-gray-300 focus:outline-none focus:border-mainRedColor text-center text-sm text-gray-700' value={values_Purcahs[1]}/>
-                                    <p className='text-sm font-black text-mainRedColor'>{t('pricemeasure')}</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col gap-4'>
-                                <Slider className='slider w-full h-1 rounded-md bg-gray-300' onChange={setValuesPurcahs} value={values_Purcahs} min={Min_Purcahs} max={Max_Purcahs}/>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <hr className='my-2'/>
+
                     <div className='side-bar-price-range flex flex-col gap-4'>
                         <div className='flex flex-row gap-2  items-center cursor-pointer' onClick={()=>{
                             !financingPriceMenuIsActive ? setFinancingPriceMenu(true) : setFinancingPriceMenu(false)
                             
                         }}>
-                            <p className='text-sm font-black text-gray-800'>{t('showRoomRangeCarsFinancingPricesHeading')}</p>
+                            <p className='text-sm font-black text-gray-800'>{t('showRoomRangeCarsPriceWithTaxHeading')}</p>
                             <img src={arrowDown} alt="" srcset="" className={financingPriceMenuIsActive ? ' w-4 rotate-180' : 'w-4'}/>
                         </div>
                         <div id='range-section' className={!financingPriceMenuIsActive ? 'hidden' : 'flex flex-col gap-4'}>
                             <div className='range-inputs flex flex-row justify-center items-center gap-6'>
                                 <div className='flex flex-col gap-2 justify-center items-center'>
                                     <p className='text-sm font-black text-gray-800'>{t('showRoomRangeFromHeading')}</p>
-                                    <input type="text" name="min-price-Financing" id="min-price-Financing" className='w-full h-10 rounded border border-gray-300 focus:outline-none focus:border-mainRedColor text-center text-sm text-gray-700' value={values_Financing[0]}/>
+                                    <input type="text" name="min-price-Financing" id="min-price-Financing" readOnly disabled className='w-full h-10 rounded border border-gray-300 focus:outline-none focus:border-mainRedColor text-center text-sm text-gray-700' value={values_Financing[0]} onChange={(e)=>{
+                                        console.log('Changed : ' + e.target.value);
+                                    }}/>
                                     <p className='text-sm font-black text-mainRedColor'>{t('pricemeasure')}</p>
                                 </div>
                                 
                                 <div className='flex flex-col gap-2 justify-center items-center'>
                                     <p className='text-sm font-black text-gray-800'>{t('showRoomRangeToHeading')}</p>
-                                    <input type="text" name="max-price-Financing" id="max-price-Financing" className='w-full h-10 rounded border border-gray-300 focus:outline-none focus:border-mainRedColor text-center text-sm text-gray-700' value={values_Financing[1]}/>
+                                    <input type="text" name="max-price-Financing" id="max-price-Financing" readOnly disabled className='w-full h-10 rounded border border-gray-300 focus:outline-none focus:border-mainRedColor text-center text-sm text-gray-700' value={values_Financing[1]} onChange={(e)=>{
+                                        console.log('Changed : ' + e.target.value);
+                                    }} />
                                     <p className='text-sm font-black text-mainRedColor'>{t('pricemeasure')}</p>
                                 </div>
                                 
                             </div>
                             <div className='flex flex-col gap-4'>
-                                <Slider className='slider w-full h-1 rounded-md bg-gray-300' onChange={setValuesFinancing} value={values_Financing} min={Min_Financing} max={Max_Financing}/>
-                                
+                                <Slider className='slider w-full h-1 rounded-md bg-gray-300' step={100} onChange={(value) => {
+                                setValuesFinancing(value);
+                                setMinPrice(value[0])
+                                setMaxPrice(value[1])
+    
+  }} value={values_Financing} min={Min_Financing} max={Max_Financing}/>
+                                    
                             </div>
                         </div>
                     </div>
@@ -173,9 +217,9 @@ function CarsShowRoom(){
                         </div>
                         <div id='sorting-section' className={!sortingMenuIsActive ? 'hidden' : 'w-full flex flex-col gap-4'}>
                             <ul className='w-full bg-[#fefefe] shadow-md rounded-lg flex flex-col gap-2'>
-                                <li>{t('sortingAsRecenet')}</li>
-                                <li>{t('sortingAsMin')}</li>
-                                <li>{t('sortingAsMax')}</li>
+                                <li onClick={()=>setSortingQuery('recent')}>{t('sortingAsRecenet')}</li>
+                                <li onClick={()=>setSortingQuery('min')}>{t('sortingAsMin')}</li>
+                                <li onClick={()=>setSortingQuery('max')}>{t('sortingAsMax')}</li>
                             </ul>
                         </div>
                     </div>
@@ -190,7 +234,7 @@ function CarsShowRoom(){
     ) : (
     <div className='w-full flex flex-row flex-wrap gap-4 my-4 justify-center items-center p-4'>
        {
-         cars.map((car, index) => (
+         carsFiltered.slice(0 , visibleAvaliableCars).map((car, index) => (
             <Link to={car.main_model_name_en} key={index} state={{ carModel: car }}>
                 <CarCard 
                     carName={lang === 'en' ? car.main_model_name_en : car.main_model_name_ar} 
@@ -212,14 +256,17 @@ function CarsShowRoom(){
                    
                       
                   
-                   <div className="flex justify-center my-4">
+{(visibleAvaliableCars < carsFiltered.length) ? (
+                    <div className="flex justify-center my-4">
                         <button 
-                           
+                            onClick={loadMoreCars} 
                             className="bg-transparent text-mainRedColor border border-mainRedColor py-2 px-4 rounded hover:bg-mainRedColor hover:text-white"
                         >
-                            {t('LoadMore')} {/* يمكنك تغيير النص ليكون ديناميكيًا */}
+                            {t('LoadMore')} 
                         </button>
                     </div>
+                ) : 
+                null}
                 </div>
             </div>
         </div>

@@ -149,6 +149,9 @@ function AskBuyForCompanies() {
                     });
                     console.log('Api Response With:', response.data);
                     resetForm();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 4000)
                 } catch (error) {
                     console.error('Error submitting Form:', error.response?.data || error.message);
                     Swal.fire({

@@ -63,15 +63,16 @@ function SwiperHomeComponenet() {
                     pauseOnMouseEnter: true,  // إيقاف التشغيل التلقائي عند الوقوف على الـ Slide
                   }}
                  loop={true}
-                 onSwiper={(swiper) => console.log(swiper)}
-                 onSlideChange={() => console.log('slide change')}>
+                //  onSwiper={(swiper) => console.log(swiper)}
+                //  onSlideChange={() => console.log('slide change')}
+                 >
             
              {brands.map((brand) => (
                 
                     <SwiperSlide>
-                        <Link to={`/brands/${brand.car_brand_name_en}`}>
+                        <Link to={`brands/${brand.car_brand_name_en}`}>
                             <div className='w-24 h-24  flex justify-center items-center bg-white rounded-md shadow border border-slate-300 hover:translate-y-2 transition-all duration-100 ease-in'>
-                                <img key={brand.id} src={brand.car_brand_image_path} className="w-16 opacity-100" alt={brand.car_brand_name_en} />                        
+                                <img key={brand.uuid} src={brand.car_brand_image_path} className="w-16 opacity-100" alt={brand.car_brand_name_en} />                        
                             </div>
                         </Link>
                     </SwiperSlide>

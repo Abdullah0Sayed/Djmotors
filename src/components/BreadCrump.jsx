@@ -8,7 +8,7 @@ function BreadCrump(props) {
                     </div>
 
                     {
-                        props.searchComponent
+                        props.searchComponent 
                     }
                 </div>
         </div>

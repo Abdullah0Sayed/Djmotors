@@ -50,7 +50,7 @@ function Offers() {
         };
 
         fetchOffers();
-    }, [queryFilter]); // إضافة queryFilter كمراقب
+    }, [queryFilter]);
 
     // Initialize AOS
     useEffect(() => {
@@ -76,9 +76,9 @@ function Offers() {
                                 <OfferCard 
                                     key={index} 
                                     offerTitle={lang === 'en' ? offer.offer_title_en : offer.offer_title_ar} 
-                                    offerImage={offer.offer_image.full_path} // تأكد من أن لديك الحقل الصحيح في العرض
-                                    offerDayLeft={offer.left_days} // تأكد من أن لديك الحقل الصحيح
-                                    offerDescription={offer.description} // تأكد من أن لديك الحقل الصحيح
+                                    offerImage={offer.offer_image.full_path} 
+                                    offerDayLeft={offer.left_days} 
+                                    offerDescription={offer.description}
                                     offer_id={offer.uuid} 
                                 />
                             ))

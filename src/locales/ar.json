@@ -228,5 +228,21 @@
     "car_km_required_validation": "حقل عداد الكيلومترات مطلوب",
     "model_year_invalid_validation": "إدخال غير صالح لحقل سنة صنع السيارة",
     "model_year_required_validation": "حقل سنة صنع السيارة مطلوب",
-    "maintenance_type_required_validation": "نوع الصيانة مطلوب"
+    "maintenance_type_required_validation": "نوع الصيانة مطلوب",
+    "serviceRequestHeading": "طلب الخدمة",
+    "serviceRequestHint": "من فضلك قم بملئ البيانات المطلوبة لطلب الخدمة وفي حالة إذا كان لديك أي استفسار أو سؤال قم بكتابته في خانة الملاحظات",
+    "buyCarRequestHint": "من فضلك قم بملئ البيانات المطلوبة لطلب شراء السيارة وفي حالة إذا كان لديك أي استفسار أو سؤال قم بكتابته في خانة الملاحظات",
+    "closeSideBarRequest": "إغلاق",
+    "buyCarRequestHeading": "طلب شراء سيارة",
+    "labelForSparePartNo": "البارت نمبر الخاص بقطعة الغيار",
+    "placeholderforsparepartno": "أدخل البارت نمبر الخاص بقطعة الغيار (مثال) xx-0x0x00",
+    "labelForSparePartName": "اسم قطعة الغيار",
+    "placeholderforsparepartname": "أدخل اسم قطعة الغيار (مثال) تيل فرامل",
+    "spare_part_required_validation": "اسم قطعة الغيار مطلوبة",
+    "compareCarsListFull": "قائمة مقارنة السيارات ممتلئة الأن , قم بإزالة إحدى السيارات منها لتتمكن من إضافة هذه السيارة",
+    "removeCarFromCompare": "إزالة",
+    "compareCarsListExisted": "السيارة موجودة بالفعل في قائمة مقارنة السيارات",
+    "noCarsAvailable": "لا يوجد سيارات تم اضافتها لقائمة المقارنة",
+    "showRoomRangeCarsPriceWithTaxHeading": "فرز حسب السعر شامل الضريبة",
+    "showRoomRangeCarsPriceWithoutTaxHeading": "فرز حسب السعر غير شامل الضريبة"
 }

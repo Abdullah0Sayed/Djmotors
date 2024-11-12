@@ -92,7 +92,7 @@ function AskBuyForMember() {
         setModelOptions(modelsSelectOptions);
     }, [models, lang]);
 
-
+// Image
     useEffect(() => {
         const fetchCarModelImageBasedOnModelID = async () => {
             if (carModelSelectValue && carBrandSelectValue) {
@@ -107,15 +107,6 @@ function AskBuyForMember() {
         fetchCarModelImageBasedOnModelID();
     }, [carBrandSelectValue, carModelSelectValue]);
 
-
-    useEffect(() => {
-        console.log('Updated car_brand_id:', car_brand_id);
-    }, [car_brand_id]);
-
-
-    useEffect(() => {
-        console.log('Updated car_model_id:', car_model_id);
-    }, [car_model_id]);
 
     // Yup For Schema Validation
 
@@ -158,6 +149,9 @@ function AskBuyForMember() {
                 });
                 console.log('Api Response With:', response.data);
                 resetForm();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 4000)
             } catch (error) {
                 console.error('Error submitting Form:', error.response?.data || error.message);
                 Swal.fire({

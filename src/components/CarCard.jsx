@@ -30,15 +30,17 @@ function CarCard(props) {
             <p className='text-2xl font-bold'>{props.carName}</p>
             
             <div className='w-full flex flex-row'>
-                <div className='pricing-rate w-full flex flex-col justify-center items-center bg-mainRedColor text-white p-2'>
-                    <span className='title text-sm'>{t('includeTax')}</span>
-                    <span className='font-bold text-xl'>{Number(props.carIncludeTax).toLocaleString()} 
-                        <span className='price-measure text-sm'> {t('pricemeasure')}</span>
-                    </span>
-                </div>
+               
                 <div className='financing-rate w-full flex flex-col justify-center items-center bg-gray-900 text-white p-2'>
                     <span className='title text-sm'>{t('withoutTax')}</span>
                     <span className='font-bold text-xl'>{Number(props.carWithoutTax).toLocaleString()} 
+                        <span className='price-measure text-sm'> {t('pricemeasure')}</span>
+                    </span>
+                </div>
+
+                <div className='pricing-rate w-full flex flex-col justify-center items-center bg-mainRedColor text-white p-2'>
+                    <span className='title text-sm'>{t('includeTax')}</span>
+                    <span className='font-bold text-xl'>{Number(props.carIncludeTax).toLocaleString()} 
                         <span className='price-measure text-sm'> {t('pricemeasure')}</span>
                     </span>
                 </div>
